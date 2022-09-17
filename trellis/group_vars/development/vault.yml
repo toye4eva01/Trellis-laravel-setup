@@ -1,0 +1,22 @@
+# Created by trellis-cli v1.7.0
+# Documentation: https://docs.roots.io/trellis/master/vault/
+
+vault_mysql_root_password: QCebNemsE6AJOQMOijkXcn5cCxjpwpZxBPamYZMRgcEzbSn2ilcTJgFrVvW2pgch
+vault_laravel_sites:
+  laravel-dev.com:
+    admin_password: rAHabsoAA7Wibt320iKDejdAibcdPt4j11pwpRBw3ExLxGpEn8rcGZfS8hHBMY8L
+    env:
+      db_password: 8Yhcuhr0B8XbQWqrQg1dDC3Hxlg34ayhvLqyhhEmzXwpKmnMgWOkk5Y4IUj55MlZ
+      db_host: localhost
+      db_username: adminuser
+      db_database: laravel_db
+      auth_key: sGLDDvqTADmdTyKMsORYnmUSx0YPccTRWdQCEfky4dNObrsRbhbgdGJfrJGrGVmq
+      secure_auth_key: AnW0xwyYkPeCdOJmCvWmqm1J72416nIML1oE314TvzoPoVhD8gffvnAVHdfCdcDp
+      logged_in_key: RnsbiHMa9mk1FU4jdtuinNysxatd6N4R5krtNiOFM4y16aYUiGtPtLSBNfsxH61T
+      nonce_key: EkueK2h08jgjwXcrAOUVtCloEUnS6LtVkZ8fEiJuSZAdmVrsCjj1IiSFbDPYsMZh
+      auth_salt: GIgQtANtHOmnF4Xbaussv5AGXaBD1JaEUX27hxQf8DOiYKHVNJWxRCdcS9xgNK01
+      secure_auth_salt: hN31JwXecXsMJ0SKa0P3P2pPLGgXhm9rglji9P7dvtyz4hznctBxTU3oEUbvV1PF
+      logged_in_salt: N1e9kRrtQVukXgdyh3gbjIYCnzv8TfsxNCDW5nKB9nu3dGUzEx0BaMB4Fy5pwXjI
+      nonce_salt: rqmkRkQ4hvo6FY9njgbpIxSefpcBfKHd2R9punbBItzNKNfhZrhkeqmBrASB4fne
+      app_key: "TWaRuZtEX8gdHF4ZNl61nQshXFZTWNuA"
+      app_debug: 'true'

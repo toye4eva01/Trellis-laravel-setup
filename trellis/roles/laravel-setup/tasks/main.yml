@@ -1,0 +1,52 @@
+
+- include: database.yml
+  tags: laravel-setup-database
+- include: self-signed-certificate.yml
+  tags: laravel-setup-self-signed-certificate
+
+- name: Create web root
+  file:
+    path: "{{ www_root }}"
+    owner: "{{ web_user }}"
+    group: "{{ web_group }}"
+    mode: 0755
+    state: directory
+  with_dict: "{{ laravel_sites }}"
+
+- name: Create logs folder of sites
+  file:
+    path: "{{ www_root }}/{{ item.key }}/logs"
+    owner: "{{ web_user }}"
+    group: "{{ web_group }}"
+    mode: 0755
+    state: directory
+  with_dict: "{{ laravel_sites }}"
+
+- name: Create Laravel php-fpm configuration file
+  template:
+    src: php-fpm.conf.j2
+    dest: /etc/php/8.0/fpm/pool.d/laravel.conf
+  notify: reload php-fpm
+
+- name: Disable default PHP-FPM pool
+  command: mv /etc/php/8.0/fpm/pool.d/www.conf /etc/php/8.0/fpm/pool.d/www.disabled
+  args:
+    creates: /etc/php/8.0/fpm/pool.d/www.disabled
+  when: disable_default_pool | default(true)
+  notify: reload php-fpm
+
+- include: nginx-includes.yml
+  tags: [nginx-includes, laravel-setup-nginx]
+
+- include: nginx.yml
+  tags: laravel-setup-nginx
+
+- name: Setup Laravel system cron
+  cron:
+    name: "{{ item.key }} Laravel cron"
+    minute: "*/1"
+    user: "{{ web_user }}"
+    job: "php {{ www_root }}/{{ item.key }}/{{ item.value.current_path | default('current') }}/artisan schedule:run >> /dev/null 2>&1"
+    cron_file: "laravel-{{ item.key | replace('.', '_') }}"
+  with_dict: "{{ laravel_sites }}"
+  when: site_env.disable_laravel_cron | default(false)

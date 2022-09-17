@@ -1,0 +1,51 @@
+---
+- import_playbook: variable-check.yml
+  vars:
+    playbook: deploy.yml
+
+- name: Test Connection
+  hosts: web:&{{ env }}
+  gather_facts: false
+  vars:
+    dynamic_user: false
+  roles:
+    - { role: connection, tags: [connection, always] }
+
+# - name: Deploy WP site
+#   hosts: web:&{{ env }}
+#   remote_user: "{{ web_user }}"
+- name: Deploy Laravel Site {{ site }}
+  hosts: web:&{{ env }}
+  remote_user: "{{ web_user }}"
+
+  vars:
+    deploy_build_before: "{{ playbook_dir }}/deploy-hooks/build-before.yml"
+    deploy_build_after: "{{ playbook_dir }}/roles/deploy/hooks/build-after.yml"
+    deploy_finalize_after: "{{ playbook_dir }}/roles/deploy/hooks/finalize-after.yml"
+    project: "{{ laravel_sites[site] }}"
+    project_root: "{{ www_root }}/{{ site }}"
+    laravel_env_defaults:
+      db_host: localhost
+      db_database: "{{ site | underscore }}_{{ env }}"
+      db_username: "{{ site | underscore }}"
+      disable_laravel_cron: true
+      app_env: "{{ env }}"
+    site_env: "{{ laravel_env_defaults | combine(project.env | default({}), vault_laravel_sites[site].env) }}"
+    project_local_path: "{{ (lookup('env', 'USER') == 'vagrant') | ternary(project_root + '/' + project_current_path, project.local_path) }}"
+  pre_tasks:
+    - name: Ensure site is valid
+      delegate_to: localhost
+      fail:
+        msg: "Site `{{ site | default('') }}` is not valid. Available sites to deploy: {{ laravel_sites.keys() | join(', ') }}"
+      when: laravel_sites[site | default('')] is not defined
+    - name: Ensure repo is valid
+      delegate_to: localhost
+      fail:
+        msg: |
+          Invalid Git repository.
+          Ensure that your site's `repo` variable is defined in `group_vars/{{ env }}/laravel_sites.yml` and uses the SSH format (example: git@github.com:roots/bedrock.git)
+          More info:
+          > https://roots.io/trellis/docs/deploys/
+      when: project.repo is not defined or project.repo is not match("^ssh://.+@.+|.+@.+:.+")
+  roles:
+    - deploy

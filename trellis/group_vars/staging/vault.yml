@@ -1,0 +1,21 @@
+# Created by trellis-cli v1.7.0
+# Documentation: https://docs.roots.io/trellis/master/vault/
+
+vault_mysql_root_password: keEago4CULxds8Hw5fioGoqfdqhXXjPn4KB5GIaZ5B7EYGKvc98OVozEwwZzhnD7
+vault_users:
+- name: '{{ admin_user }}'
+  password: 56irTGSpKiXxEdTFFleQmtjw5f9ihHrBanTR33GZAdIy1UoDztOZJ7I3IZOtbXxY
+  salt: PO523eR38cnADVemfd7aBnYp8Fk9CRLxaQdhKJtoqzoBrkGVxLK1iKx2FbYY9908
+vault_laravel_sites:
+  laravel-dev.com:
+    admin_password: b1VEWJY0SxLWevC1OK5GJXNkuhinNW43UFTNopuTlzwy4Bl1BVpbJQsOaTy1Na6v
+    env:
+      db_password: vRc8Da9dQweRdvGl0eQxa4weZfqym91YIF1AsIrfFxg8l3d1KhPpHBAEofrALNQa
+      auth_key: FrMg2SkX3y03iuP1HIjS9Ro85wvzYVAnRZuHBYMuemPYXO7Dp34d8nTatucgLV5A
+      secure_auth_key: 27PlOH8ASFgsrYzMYoxxyTnfvALPDJGgYrQDEsTBpHblV1LdxSAp3iPiucXAqQAN
+      logged_in_key: 7B0PldAavhH9AruFvyBblw1WJ2GkTIe8mRegmZ5ZJCqrW9q1XbMi8qlubZcTcdzB
+      nonce_key: j8R3p6aQHCn8X6EvA4u9IxKaBTLq3DkIM2CQ68OBysXhmwLwlk42Z7w9T2q2Xffg
+      auth_salt: nsnREYkdnB5nNeaZ6dmrImyPLBx4mjWZyBwHA5Gmy7uXe6uNa6ASKYYRNUFCYwhU
+      secure_auth_salt: tmNhiA8eI7Em6zk1oGCwpAcwaRSKZCb8e09MlplnSuk3FwH9Q3qTcyLoYekfvU0Y
+      logged_in_salt: 72O1HPSffF7eNrbNCxCWSJKvA3VSsKRd3ZoSdVvMvO0gLGgWqjImEX7GCWxImzS2
+      nonce_salt: TSMjwr5113WlaK2ht7kES1u8YYZddsZ1SiXYgLo4HoWouFkmKxv8NbXPwctUbfN1
